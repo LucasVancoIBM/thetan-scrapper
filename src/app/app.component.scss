@@ -1,0 +1,19 @@
+h1 {
+  text-align: center;
+}
+
+table {
+  width: 90%;
+  margin: auto;
+}
+
+.status {
+  padding: 10px;
+  background-color: green;
+  color: white;
+  font-weight: bold;
+
+  &-sold {
+    background-color: red;
+  }
+}

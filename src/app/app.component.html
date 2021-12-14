@@ -1,0 +1,64 @@
+<div>
+  <h1>Thetan Scrapper</h1>
+  <table mat-table [dataSource]="heroes" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">
+        <a [href]="'https://marketplace.thetanarena.com/item/' + element.refId" target="_blank">
+          {{element.refId}}
+        </a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="avatar">
+      <th mat-header-cell *matHeaderCellDef>Avatar</th>
+      <td mat-cell *matCellDef="let element">
+        <img height="50px" [src]="'https://assets.thetanarena.com/' + element.imageAvatar" />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef>Creation Date</th>
+      <td mat-cell *matCellDef="let element"> {{element.created | date: 'd/M/yy, H:mm'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="modified">
+      <th mat-header-cell *matHeaderCellDef>Modification Date</th>
+      <td mat-cell *matCellDef="let element"> {{element.lastModified | date: 'd/M/yy, H:mm'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>WBNB Price</th>
+      <td mat-cell *matCellDef="let element"> {{element.price / 100000000}} WBNB </td>
+    </ng-container>
+
+    <ng-container matColumnDef="usd">
+      <th mat-header-cell *matHeaderCellDef>$ Price</th>
+      <td mat-cell *matCellDef="let element"> ${{getUsdPrice(element.price) | number: '1.0-2'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="battlecap">
+      <th mat-header-cell *matHeaderCellDef>Battles Left</th>
+      <td mat-cell *matCellDef="let element"> {{element.battleCap}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="status" [ngClass]="{ 'status-sold': isSold(element.id) }">
+          {{ isSold(element.id) ? 'SOLD' : 'ONLINE' }}
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</div>

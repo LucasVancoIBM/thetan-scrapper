@@ -19,8 +19,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsdCurrentRate();
-    // setInterval(() => { this.call(); }, 5000);
-    this.call();
+    setInterval(() => { this.call(); }, 5000);
+    // this.call();
   }
 
   async getUsdCurrentRate(): Promise<void> {
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
       // response success
       if (response.data.success) {
         const data = response.data.data;
-        console.log(data);
+        // console.log(data);
         this.lastHeroIds = [];
         for (let i: number = 0; i < data.length; i += 1) {
           this.lastHeroIds.push(data[i].id);
@@ -52,9 +52,9 @@ export class AppComponent implements OnInit {
     }
   }
 
-  getHeroInfo(): void {
-    const url: string = 'https://data.thetanarena.com/thetan/v1/items/';
-  }
+  // getHeroInfo(): void {
+  //   const url: string = 'https://data.thetanarena.com/thetan/v1/items/';
+  // }
 
   getUsdPrice(wbnb: number): number {
     return (this.usdRate * (wbnb / 100000000));

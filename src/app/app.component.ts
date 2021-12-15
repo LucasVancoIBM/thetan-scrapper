@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   }
 
   async call(): Promise<void> {
-    const response: AxiosResponse<any> = await axios.get('https://data.thetanarena.com/thetan/v1/nif/search?sort=Latest&priceMin=0&priceMax=16000000&from=0&size=16');
+    const response: AxiosResponse<any> = await axios.get('https://data.thetanarena.com/thetan/v1/nif/search?sort=Latest&priceMin=0&priceMax=13000000&from=0&size=16');
     if (response.status === 200) {
       // response success
       if (response.data.success) {

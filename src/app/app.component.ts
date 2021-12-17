@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import axios, { AxiosResponse } from 'axios';
+import { response } from 'express';
 
 @Component({
   selector: 'app-root',
@@ -13,14 +14,14 @@ export class AppComponent implements OnInit {
   lastHeroIds: string[];
   usdRate: number = null;
 
-  displayedColumns: string[] = ['id', 'avatar', 'name', 'created', 'modified', 'price', 'usd', 'battlecap', 'status'];
+  displayedColumns: string[] = ['id', 'avatar', 'name', 'created', 'modified', 'price', 'usd', 'battlecap', 'status', 'refresh'];
 
   @ViewChild(MatTable, { static: false }) table: MatTable<any>;
 
   ngOnInit(): void {
     this.getUsdCurrentRate();
-    setInterval(() => { this.call(); }, 1000);
-    // this.call();
+    // setInterval(() => { this.call(); }, 1000);
+    this.call();
   }
 
   async getUsdCurrentRate(): Promise<void> {
@@ -44,17 +45,30 @@ export class AppComponent implements OnInit {
           this.lastHeroIds.push(data[i].id);
           if (!this.heroesIds.includes(data[i].id)) {
             this.heroesIds.push(data[i].id);
+            const idx: number = this.heroes.findIndex((element: any): boolean => element.refId === data[i].refId);
+            if (idx > -1) {
+              this.heroes.splice(idx, 1);
+            }
             this.heroes.push(data[i]);
           }
         }
+        this.heroes.reverse();
         this.table.renderRows();
       }
     }
   }
 
-  // getHeroInfo(): void {
-  //   const url: string = 'https://data.thetanarena.com/thetan/v1/items/';
-  // }
+  getHeroInfo(id: string): void {
+    const url: string = `https://data.thetanarena.com/thetan/v1/items/${id}`;
+    axios.get(url)
+      .then((res: AxiosResponse<any>): void => {
+        const data = res.data.data;
+        const idx: number = this.heroes.findIndex((element: any): boolean => element.id === id);
+        this.heroes[idx].lastModified = data.lastModified;
+        this.heroes[idx].price = data.sale.price;
+        this.table.renderRows();
+      });
+  }
 
   getUsdPrice(wbnb: number): number {
     return (this.usdRate * (wbnb / 100000000));
@@ -64,3 +78,12 @@ export class AppComponent implements OnInit {
     return !this.lastHeroIds.includes(id);
   }
 }
+
+
+/*
+1WBNB = 1^18
+3500000000000000000 = 3.5 WBNB
+185000000000000000 = 0.185
+300000000000000000 = 0.3
+26000000000000000 = 0.026
+ */

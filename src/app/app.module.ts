@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -12,7 +13,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     imports: [
         BrowserModule,
         NoopAnimationsModule,
-        MatTableModule
+        MatTableModule,
+        MatIconModule
     ],
   providers: [],
   bootstrap: [AppComponent]

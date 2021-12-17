@@ -20,8 +20,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsdCurrentRate();
-    // setInterval(() => { this.call(); }, 1000);
-    this.call();
+    setInterval(() => { this.call(); }, 1000);
+    // this.call();
   }
 
   async getUsdCurrentRate(): Promise<void> {
